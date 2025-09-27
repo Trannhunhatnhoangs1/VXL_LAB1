@@ -70,6 +70,20 @@ void Error_Handler(void);
 #define LED_YELLOW_GPIO_Port GPIOA
 #define LED_GREEN_Pin GPIO_PIN_6
 #define LED_GREEN_GPIO_Port GPIOA
+#define L1_Pin GPIO_PIN_0
+#define L1_GPIO_Port GPIOB
+#define L2_Pin GPIO_PIN_1
+#define L2_GPIO_Port GPIOB
+#define L3_Pin GPIO_PIN_2
+#define L3_GPIO_Port GPIOB
+#define L4_Pin GPIO_PIN_3
+#define L4_GPIO_Port GPIOB
+#define L5_Pin GPIO_PIN_4
+#define L5_GPIO_Port GPIOB
+#define L6_Pin GPIO_PIN_5
+#define L6_GPIO_Port GPIOB
+#define L7_Pin GPIO_PIN_6
+#define L7_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
