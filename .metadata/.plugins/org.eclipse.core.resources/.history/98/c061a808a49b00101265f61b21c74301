@@ -117,18 +117,14 @@ int main(void)
           HAL_GPIO_WritePin(GPIOA, leds[num], RESET);
       }
 
-      void clearNumberOnClock (int num ) {
-               HAL_GPIO_WritePin (GPIOA, leds[num], SET);
-           }
-         int n = 0;
-         while (1) {
-       	  clearAllClock();
-           fullLed(n);
-       	  setNumberOnClock(9);
-       	 clearNumberOnClock(4);
-             n++;
-             if(n >= 12) n = 0;
-             HAL_Delay(1000);
+      int n = 0;
+      while (1) {
+    	  clearAllClock();
+        fullLed(n);
+    	  setNumberOnClock(9);
+          n++;
+          if(n >= 12) n = 0;
+          HAL_Delay(1000);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
