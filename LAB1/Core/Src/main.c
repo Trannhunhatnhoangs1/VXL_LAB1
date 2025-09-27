@@ -47,6 +47,7 @@
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+static void MX_GPIO_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -83,15 +84,52 @@ int main(void)
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
+  MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
-    /* USER CODE END WHILE */
+  int countRed    = 5;// RED sáng 5s
+    int countYellow = 2;  // YELLOW sáng 2s
+    int countGreen  = 3;  // GREEN sáng 3s
+
+    while (1)
+    {
+  	  if (countRed > 0)   // RED phase
+  	      {
+  	          HAL_GPIO_WritePin(GPIOA, LED_RED_Pin, RESET);   // RED ON
+  	          HAL_GPIO_WritePin(GPIOA, LED_YELLOW_Pin, SET);  // YELLOW OFF
+  	          HAL_GPIO_WritePin(GPIOA, LED_GREEN_Pin, SET);   // GREEN OFF
+
+  	          countRed--;
+  	      }
+  	      else if (countYellow > 0)  // YELLOW phase
+  	      {
+  	          HAL_GPIO_WritePin(GPIOA, LED_RED_Pin, SET);     // RED OFF
+  	          HAL_GPIO_WritePin(GPIOA, LED_YELLOW_Pin, RESET);// YELLOW ON
+  	          HAL_GPIO_WritePin(GPIOA, LED_GREEN_Pin, SET);   // GREEN OFF
+
+  	          countYellow--;
+  	      }
+  	      else if (countGreen > 0)   // GREEN phase
+  	      {
+  	          HAL_GPIO_WritePin(GPIOA, LED_RED_Pin, SET);     // RED OFF
+  	          HAL_GPIO_WritePin(GPIOA, LED_YELLOW_Pin, SET);  // YELLOW OFF
+  	          HAL_GPIO_WritePin(GPIOA, LED_GREEN_Pin, RESET); // GREEN ON
+
+  	          countGreen--;
+  	      }
+
+  	      // Khi hết cả 3 phase thì reset lại
+  	      if (countRed == 0 && countYellow == 0 && countGreen == 0)
+  	      {
+  	          countRed    = 5;
+  	          countYellow = 2;
+  	          countGreen  = 3;
+  	      }
+  	      HAL_Delay(1000);
 
     /* USER CODE BEGIN 3 */
   }
@@ -131,6 +169,30 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+}
+
+/**
+  * @brief GPIO Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_GPIO_Init(void)
+{
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+  /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOA_CLK_ENABLE();
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOA, LED_RED_Pin|LED_YELLOW_Pin|LED_GREEN_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pins : LED_RED_Pin LED_YELLOW_Pin LED_GREEN_Pin */
+  GPIO_InitStruct.Pin = LED_RED_Pin|LED_YELLOW_Pin|LED_GREEN_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
 }
 
 /* USER CODE BEGIN 4 */
