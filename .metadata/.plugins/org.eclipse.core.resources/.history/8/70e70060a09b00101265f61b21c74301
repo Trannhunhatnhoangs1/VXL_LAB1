@@ -91,33 +91,10 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  int countRed=2;
-   int countYellow = 2;  // YELLOW sáng 2s
-   while (1)
-   {
-   if (countRed > 0)   // RED phase
-     {
-         HAL_GPIO_WritePin(GPIOA, LED_RED_Pin, RESET);   // RED ON
-         HAL_GPIO_WritePin(GPIOA, LED_YELLOW_Pin, SET);  // YELLOW OFF
+  while (1)
+  {
+    /* USER CODE END WHILE */
 
-         countRed--;
-     }
-     else if (countYellow > 0)  // YELLOW phase
-     {
-         HAL_GPIO_WritePin(GPIOA, LED_RED_Pin, SET);     // RED OFF
-         HAL_GPIO_WritePin(GPIOA, LED_YELLOW_Pin, RESET);// YELLOW ON
-
-         countYellow--;
-     }
-
-     // Khi hết cả 2 phase thì reset lại
-     if (countRed == 0 && countYellow == 0)
-     {
-         countRed    = 2;
-         countYellow = 2;
-     }
-
- 	      HAL_Delay(1000);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
