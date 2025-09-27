@@ -92,12 +92,20 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   uint16_t leds[12] = {
-      RED1_Pin, RED2_Pin, RED3_Pin, RED4_Pin,
-      RED5_Pin, RED6_Pin, RED7_Pin, RED8_Pin,
-      RED9_Pin, RED10_Pin, RED11_Pin, RED12_Pin
-    };
+    RED1_Pin, RED2_Pin, RED3_Pin, RED4_Pin,
+    RED5_Pin, RED6_Pin, RED7_Pin, RED8_Pin,
+    RED9_Pin, RED10_Pin, RED11_Pin, RED12_Pin
+  };
 
-    void clearAllClock(){
+  void fullLed (int n) {
+        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4 | GPIO_PIN_5 |
+                    GPIO_PIN_6 | GPIO_PIN_7 | GPIO_PIN_8 |
+                    GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_11 |
+                    GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 |
+                    GPIO_PIN_15, SET);
+        HAL_GPIO_WritePin(GPIOA, leds[n], RESET);
+    }
+  void clearAllClock(){
           HAL_GPIO_WritePin (GPIOA, GPIO_PIN_4 | GPIO_PIN_5
                       | GPIO_PIN_6 | GPIO_PIN_7 | GPIO_PIN_8
                       | GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_11
@@ -108,26 +116,19 @@ int main(void)
       void setNumberOnClock(int num) {
           HAL_GPIO_WritePin(GPIOA, leds[num], RESET);
       }
-      int hour = 0, minute = 0, second = 0;
-       while (1) {
-           if(second == 60) {
-               second = 0;
-               minute++;
+
+      void clearNumberOnClock (int num ) {
+               HAL_GPIO_WritePin (GPIOA, leds[num], SET);
            }
-           if(minute == 60) {
-               minute = 0;
-               second = 0;
-               hour++;
-           }
-           if(hour == 24) {
-               hour = 0;
-           }
-           clearAllClock();
-           setNumberOnClock(hour%12);
-           setNumberOnClock(minute/5);
-           setNumberOnClock(second/5);
-           second++;
-           HAL_Delay(1000);
+         int n = 0;
+         while (1) {
+       	  clearAllClock();
+           fullLed(n);
+       	  setNumberOnClock(9);
+       	 clearNumberOnClock(4);
+             n++;
+             if(n >= 12) n = 0;
+             HAL_Delay(1000);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
